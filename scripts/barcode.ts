@@ -1,4 +1,43 @@
-// First Number: Product Type. The product type is typically denoted by 0,1,6,7 or 8.
-// Following 5 Numbers: The Manufacturer Code. The five numbers are a unique code that identifies the manufacturer or distributor of the product.
-// Following 5 Numbers on the Right: Product Code. This part of the code is unique to the individual product.
-// Final Number: Check Digit (a Self-Policing System). The final digit of a barcode number is a computer check digit which makes sure the barcode is correctly composed.
+// 5060087366319
+interface BarcodeParts {
+  countryCode: string;
+  manufacturerCode: string;
+  productCode: string;
+  checkDigit: string;
+}
+
+function splitBarcode(barcode: string): BarcodeParts | null {
+  if (barcode.length !== 13) {
+    console.error("Invalid barcode length. Barcode must be 13 digits.");
+    return null;
+  }
+
+  const countryCode = barcode.substring(0, 3);
+  const manufacturerCode = barcode.substring(3, 7);
+  const productCode = barcode.substring(7, 12);
+  const checkDigit = barcode.substring(12);
+
+  return {
+    countryCode,
+    manufacturerCode,
+    productCode,
+    checkDigit
+  };
+}
+
+const barcode = "1234567890123";
+const parts = splitBarcode(barcode);
+
+if (parts) {
+  console.log("Country Code:", parts.countryCode);
+  console.log("Manufacturer Code:", parts.manufacturerCode);
+  console.log("Product Code:", parts.productCode);
+  console.log("Check Digit:", parts.checkDigit);
+}
+
+/*
+  if no result
+    add numbers from product code, higher number wins
+    if draw
+      compare check digit
+*/
